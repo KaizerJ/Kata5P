@@ -1,7 +1,6 @@
 package view;
 
-public interface PersonListDisplay {    
-    public void loadList();
-    public void displayNext();
+public interface PersonListDisplay {
     public void displayPrev();
+    public void displayNext();
 }

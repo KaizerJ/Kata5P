@@ -6,6 +6,7 @@ import java.util.List;
 
 public class PersonList implements Iterable<Person>{
     private final List<Person> people;
+    private int index = 0;
 
     public PersonList(List<Person> list) {
         this.people = list;
@@ -30,5 +31,28 @@ public class PersonList implements Iterable<Person>{
 
     public int size() {
         return people.size();
+    }
+    
+    public Person current(){
+        if(people.size() > 0){
+            return people.get(index);
+        }
+        return null;
+    }
+    
+    public Person next(){
+        if(people.size() > 0){
+            index = ++index == people.size() ? 0 : index++;
+            return people.get(index);
+        }
+        return null;
+    }
+    
+    public Person prev(){
+        if(people.size() > 0){
+            index = --index < 0 ? people.size() - 1 : index--;
+            return people.get(index);
+        }
+        return null;
     }
 }

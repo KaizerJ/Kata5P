@@ -8,7 +8,12 @@ public class DBPersonLoader implements PersonLoader {
     @Override
     public PersonList query() {
         //STUB CODE
-        return null;
+        PersonList personList = new PersonList();
+        personList.addPerson("Horacio", "Martinez", "IT");
+        personList.addPerson("Facundo", "Hernandez", "Maraaaaaaaaaaaketing");
+        personList.addPerson("Eustaquio", "Molina", "CEO");
+        //STUB
+        return personList;
     }
     
 }

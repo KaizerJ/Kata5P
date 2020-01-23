@@ -1,36 +1,82 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.List;
+import control.Command;
+import control.NextPersonCommand;
+import control.PrevPersonCommand;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import model.Person;
+import javax.swing.JPanel;
 import model.PersonList;
 import view.PersonDisplay;
 import view.PersonListDisplay;
 
 public class SwingPersonListDisplay extends JFrame implements PersonListDisplay {
     private final PersonList personList;
-    private final List<PersonDisplay> personDisplays;
+    private PersonDisplay personDisplay;
+    private int index = 0;
+    private final HashMap<String,Command> commands;
 
     public SwingPersonListDisplay(PersonList personList) {
+        this.commands = new HashMap<>();
         this.personList = personList;
-        personDisplays = new ArrayList<>();
+        
+        this.setTitle("Person List Display");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(300,200);
+        this.setLocationRelativeTo(null);
+        
+        this.getContentPane().add(personDisplay());
+        personDisplay.displayPerson(personList.current());
+        addCommands();
+        this.getContentPane().add(toolBar(),BorderLayout.NORTH);
+        this.setVisible(true);
     }
 
+
     @Override
-    public void loadList() {
-        for (Person person : personList) {
-            personDisplays.add(new SwingPersonDisplay(person));
-        }
+    public void displayPrev() {
+        this.personDisplay.displayPerson(personList.prev());
     }
 
     @Override
     public void displayNext() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.personDisplay.displayPerson(personList.next());
     }
 
-    @Override
-    public void displayPrev() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void addCommands() {
+        this.commands.put("PrevPerson", new PrevPersonCommand(this));
+        this.commands.put("NextPerson", new NextPersonCommand(this));
+    }
+
+    private JPanel toolBar() {
+        JPanel panel = new JPanel();
+        panel.add(prevButton());
+        panel.add(nextButton());
+        return panel;
+    }
+
+    private JButton prevButton() {
+        JButton button = new JButton("<");
+        button.addActionListener((ActionEvent e) -> {
+            commands.get("PrevPerson").execute();
+        });
+        return button;
+    }
+
+    private JButton nextButton() {
+        JButton button = new JButton(">");
+        button.addActionListener((ActionEvent e) -> {
+            commands.get("NextPerson").execute();
+        });
+        return button;
+    }
+
+    private JPanel personDisplay() {
+        SwingPersonDisplay swingPersonDisplay = new SwingPersonDisplay();
+        this.personDisplay = swingPersonDisplay;
+        return swingPersonDisplay;
     }
 }
