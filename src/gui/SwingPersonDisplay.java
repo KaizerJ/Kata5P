@@ -18,9 +18,9 @@ class SwingPersonDisplay extends JPanel implements PersonDisplay {
         this.person = person;
         if(person == null) return;
         this.removeAll();
-        this.add(new Label("Name:\t" + this.person.getName()));
-        this.add(new Label("Last Name:\t" + this.person.getLastName()));
-        this.add(new Label("Department:\t" + this.person.getDepartment()));
+        this.add(new Label("Name: " + this.person.getName()));
+        this.add(new Label("Last Name: " + this.person.getLastName()));
+        this.add(new Label("Department: " + this.person.getDepartment()));
         this.updateUI();
     }
 
